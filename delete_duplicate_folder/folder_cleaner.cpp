@@ -14,7 +14,8 @@ void FolderCleaner::deleteDuplicateFolders(const fs::path& root) {
 
     for (const auto& [key, paths] : duplicates) {
         if (paths.size() < 2) continue;
-        for (const auto& dupPath : paths) {
+        for (size_t i = 0; i + 1 < paths.size(); ++i) {
+            const auto& dupPath = paths[i];
             std::error_code ec;
             fs::remove_all(dupPath, ec);
             if (ec) {
@@ -22,7 +23,7 @@ void FolderCleaner::deleteDuplicateFolders(const fs::path& root) {
             } else {
                 std::cout << "Deleted: " << dupPath << '\n';
             }
-        }
+        }        
     }
     std::cout << "Deletion completed.\n";
 }
